@@ -16,39 +16,15 @@ const MAP_GREEN_DARK = "#E8D1BF";
 const MAP_TEXT = "#3B2A1E";
 const MAP_OUTLINE = "#9C7A58";
 
-const JOURNEY_ITEMS = [
-  {
-    year: "2020",
-    title: "The First Meeting",
-    desc: "Fate brought two strangers together at a rainy evening gallery opening in Colombo. A shared umbrella and a shared laugh became the beginning of everything.",
-    images: [
-      "/start1.jpeg",
-      "/start2.jpeg",
-    ],
-  },
-  {
-    year: "2021",
-    title: "Adventures Together",
-    desc: "From cobblestone streets in Lisbon to sunrise hikes in the highlands, every adventure deepened our love and built a treasure trove of shared memories.",
-    images: [
-      "/adventure1.jpeg",
-      "/adventure2.jpeg",
-      "/adventure3.jpeg",
-    ],
-  },
-  {
-    year: "2026",
-    title: "The Proposal",
-    desc: "Under a canopy of stars at their favourite seaside restaurant, Alexander got down on one knee. Through happy tears, Sophia said yes.",
-    images: [
-      "/proposal1.jpeg",
-    ],
-  },
-  {
-    year: "2026",
-    title: "Forever Begins Today",
-    desc: "Today, surrounded by everyone who has loved and supported us, we make our promise to each other — for all of time.",
-  },
+const GALLERY = [
+  { src: "/gallery1.jpg",     year: "2026", caption: "Forever begins" },
+  { src: "/start1.jpeg",      year: "2020", caption: "The first meeting" },
+  { src: "/adventure1.jpeg",  year: "2021", caption: "Adventures together" },
+  { src: "/gallery2.jpg",     year: "2026", caption: "Two souls, one love" },
+  { src: "/adventure2.jpeg",  year: "2021", caption: "Adventures together" },
+  { src: "/start2.jpeg",      year: "2020", caption: "The first meeting" },
+  { src: "/proposal1.jpeg",   year: "2026", caption: "The proposal" },
+  { src: "/adventure3.jpeg",  year: "2021", caption: "Adventures together" },
 ];
 
 // ── Mock guest data ────────────────────────────────────────────────
@@ -142,11 +118,11 @@ const TIMELINE = [
   { time: "8:30 AM", event: "Guest Arrival & Welcome", icon: "🥂" },
   { time: "9:00 AM", event: "Poruwa Ceremony", icon: "💍" },
   { time: "10:00 AM", event: "Signing of the Register", icon: "✍️" },
-  { time: "10:30 AM", event: "Photography & Group Photos", icon: "📸" },
-  { time: "11:00 AM", event: "Reception & Brunch", icon: "🍽️" },
-  { time: "12:30 PM", event: "Cake Cutting & Toasts", icon: "🎂" },
-  { time: "1:00 PM", event: "First Dance & Celebration", icon: "🎶" },
-  { time: "2:00 PM", event: "Farewell & Send-Off", icon: "✨" },
+  // { time: "10:30 AM", event: "Photography & Group Photos", icon: "📸" },
+  // { time: "11:00 AM", event: "Reception & Brunch", icon: "🍽️" },
+  // { time: "12:30 PM", event: "Cake Cutting & Toasts", icon: "🎂" },
+  // { time: "1:00 PM", event: "First Dance & Celebration", icon: "🎶" },
+  // { time: "2:00 PM", event: "Farewell & Send-Off", icon: "✨" },
 ];
 
 // ── Fuzzy search ───────────────────────────────────────────────────
@@ -571,82 +547,44 @@ function GuestCard({ guest, onClose }) {
   );
 }
 
-function StoryItem({ item }) {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const images = Array.isArray(item.images) ? item.images : [];
-  const hasImages = images.length > 0;
-  const hasMultiple = images.length > 1;
+function Gallery({ items }) {
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    const root = containerRef.current;
+    if (!root) return;
+    const tiles = root.querySelectorAll(".gallery-tile");
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          e.target.classList.add("revealed");
+          obs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: "0px 0px -8% 0px" });
+    tiles.forEach((t) => obs.observe(t));
+    return () => obs.disconnect();
+  }, [items]);
 
   return (
-    <div className="story-row" style={{
-      display: "flex", gap: 24, marginBottom: 40, alignItems: "flex-start",
-    }}>
-      <div className="story-year" style={{ textAlign: "right", width: 110, flexShrink: 0, paddingTop: 2 }}>
-        <div style={{
-          color: GOLD,
-          fontSize: "clamp(28px, 3.4vw, 38px)",
-          fontFamily: "'Cormorant Garamond', serif",
-          fontStyle: "italic",
-          fontWeight: 300,
-          lineHeight: 1,
-          letterSpacing: 1,
-        }}>{item.year}</div>
-        <div style={{
-          marginTop: 8, marginLeft: "auto",
-          width: 28, height: 1,
-          background: `linear-gradient(to right, transparent, ${GOLD_DARK})`,
-        }} />
-      </div>
-      <div style={{ flex: 1, paddingBottom: 32, minWidth: 0 }}>
-        <h3 style={{
-          fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic",
-          color: INK, fontSize: 20, fontWeight: 400, margin: "0 0 8px",
-        }}>{item.title}</h3>
-        <p style={{ color: INK, opacity: 0.78, fontSize: 13, lineHeight: 1.8, margin: 0 }}>
-          {item.desc}
-        </p>
-        {hasImages && (
-          <div style={{ marginTop: 18 }}>
-            <div className="story-frame">
-              {images.map((src, idx) => (
-                <div
-                  key={src}
-                  className={`story-slide${idx === activeIndex ? " active" : ""}`}
-                >
-                  <img src={src} alt={`${item.title} photo ${idx + 1}`} loading="lazy" />
-                </div>
-              ))}
-            </div>
-            {hasMultiple && (
-              <div className="story-controls">
-                <button
-                  className="story-arrow"
-                  onClick={() => setActiveIndex((activeIndex - 1 + images.length) % images.length)}
-                  aria-label={`Previous ${item.title} photo`}
-                >‹</button>
-                <div className="story-progress">
-                  {images.map((_, idx) => (
-                    <button
-                      key={idx}
-                      className={`story-bar${idx === activeIndex ? " active" : ""}`}
-                      onClick={() => setActiveIndex(idx)}
-                      aria-label={`Show ${item.title} photo ${idx + 1}`}
-                    />
-                  ))}
-                </div>
-                <span className="story-counter">
-                  {String(activeIndex + 1).padStart(2, "0")} / {String(images.length).padStart(2, "0")}
-                </span>
-                <button
-                  className="story-arrow"
-                  onClick={() => setActiveIndex((activeIndex + 1) % images.length)}
-                  aria-label={`Next ${item.title} photo`}
-                >›</button>
-              </div>
-            )}
+    <div ref={containerRef} className="gallery-mason">
+      {items.map((it, i) => (
+        <figure
+          key={it.src}
+          className="gallery-tile"
+          style={{ transitionDelay: `${(i % 6) * 90}ms` }}
+        >
+          <div className="gallery-frame">
+            <img src={it.src} alt={it.caption || ""} loading="lazy" />
           </div>
-        )}
-      </div>
+          {(it.year || it.caption) && (
+            <figcaption className="gallery-caption">
+              {it.year && <span className="gallery-year">{it.year}</span>}
+              {it.caption && <span className="gallery-title">{it.caption}</span>}
+            </figcaption>
+          )}
+        </figure>
+      ))}
     </div>
   );
 }
@@ -733,8 +671,6 @@ export default function WeddingApp() {
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         @keyframes glow-pulse { 0%,100% { box-shadow: 0 0 20px ${GOLD}30; } 50% { box-shadow: 0 0 40px ${GOLD}60; } }
         @keyframes pulsePin { 0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(181,138,90,0.55); } 70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(181,138,90,0); } 100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(181,138,90,0); } }
-        @keyframes carouselFloat { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes kenBurns { 0% { transform: scale(1) translate(0, 0); } 50% { transform: scale(1.06) translate(-1%, -1%); } 100% { transform: scale(1) translate(0, 0); } }
         .nav-link { transition: color 0.3s, opacity 0.3s; }
         .nav-link:hover { color: ${GOLD} !important; opacity: 1 !important; }
         .search-input:focus { outline: none; border-color: ${GOLD} !important; box-shadow: 0 0 20px ${GOLD}20 !important; }
@@ -745,82 +681,88 @@ export default function WeddingApp() {
         .nav-links { display: flex; gap: 20px; }
         .nav-links button { white-space: nowrap; }
         .finder-grid { display: grid; }
-        .story-row { display: flex; gap: 24px; }
-        .story-frame {
+        .gallery-mason {
+          column-count: 3;
+          column-gap: 18px;
+        }
+        .gallery-tile {
           position: relative;
-          width: 100%;
-          height: clamp(240px, 38vw, 400px);
-          border-radius: 14px;
-          border: 1px solid ${GOLD_DARK}40;
+          break-inside: avoid;
+          margin: 0 0 18px;
+          border-radius: 12px;
           overflow: hidden;
-          background: #FFF7F0;
-          box-shadow: 0 18px 36px rgba(91,67,50,0.10), 0 2px 8px rgba(91,67,50,0.04);
-          animation: carouselFloat 0.6s ease both;
-        }
-        .story-slide {
-          position: absolute;
-          inset: 0;
+          border: 1px solid ${GOLD_DARK}30;
+          box-shadow: 0 14px 28px rgba(91,67,50,0.08), 0 2px 6px rgba(91,67,50,0.04);
           opacity: 0;
-          transition: opacity 0.6s ease;
+          transform: translateY(28px);
+          transition:
+            opacity 0.9s ease,
+            transform 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+            box-shadow 0.4s ease;
+          cursor: zoom-in;
+          background: #FFF7F0;
         }
-        .story-slide.active { opacity: 1; }
-        .story-slide img {
-          width: 100%; height: 100%;
-          object-fit: cover;
-          object-position: center 30%;
-          display: block;
-          animation: kenBurns 18s ease-in-out infinite;
-        }
-        .story-controls {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 18px;
-          margin-top: 16px;
-        }
-        .story-arrow {
-          background: none;
-          border: none;
-          color: ${GOLD_DARK};
-          font-family: 'Cormorant Garamond', serif;
-          font-size: 26px;
-          line-height: 1;
-          padding: 2px 6px;
-          cursor: pointer;
-          opacity: 0.6;
-          transition: opacity 0.25s, color 0.25s, transform 0.25s;
-        }
-        .story-arrow:hover { opacity: 1; color: ${GOLD}; transform: translateY(-1px); }
-        .story-progress {
-          display: flex;
-          align-items: center;
-          gap: 6px;
-        }
-        .story-bar {
-          width: 22px;
-          height: 2px;
-          background: ${GOLD_DARK};
-          opacity: 0.3;
-          border: none;
-          padding: 0;
-          cursor: pointer;
-          border-radius: 1px;
-          transition: opacity 0.35s ease, width 0.35s ease, background 0.35s ease;
-        }
-        .story-bar.active {
+        .gallery-tile.revealed {
           opacity: 1;
-          background: ${GOLD};
-          width: 36px;
+          transform: translateY(0);
         }
-        .story-counter {
-          color: ${GOLD};
+        .gallery-tile:hover {
+          box-shadow: 0 22px 44px rgba(91,67,50,0.16), 0 4px 10px rgba(91,67,50,0.08);
+        }
+        .gallery-frame {
+          overflow: hidden;
+          line-height: 0;
+        }
+        .gallery-tile img {
+          width: 100%;
+          height: auto;
+          display: block;
+          transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+          will-change: transform;
+        }
+        .gallery-tile:hover img { transform: scale(1.06); }
+        .gallery-caption {
+          position: absolute;
+          left: 0; right: 0; bottom: 0;
+          padding: 56px 18px 16px;
+          background: linear-gradient(to top,
+            rgba(59,42,30,0.78) 0%,
+            rgba(59,42,30,0.55) 40%,
+            rgba(59,42,30,0) 100%);
+          color: #FFFBF7;
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+          opacity: 0;
+          transform: translateY(8px);
+          transition: opacity 0.45s ease, transform 0.45s ease;
+          pointer-events: none;
+        }
+        .gallery-tile:hover .gallery-caption,
+        .gallery-tile:focus-within .gallery-caption {
+          opacity: 1;
+          transform: translateY(0);
+        }
+        .gallery-year {
           font-size: 10px;
-          letter-spacing: 3px;
+          letter-spacing: 4px;
           font-family: Georgia, serif;
-          opacity: 0.7;
-          font-variant-numeric: tabular-nums;
-          min-width: 56px;
-          text-align: center;
+          color: ${GOLD};
+          opacity: 0.95;
+        }
+        .gallery-title {
+          font-family: 'Cormorant Garamond', serif;
+          font-style: italic;
+          font-size: 18px;
+          letter-spacing: 0.5px;
+        }
+        @media (max-width: 900px) {
+          .gallery-mason { column-count: 2; column-gap: 14px; }
+          .gallery-tile { margin-bottom: 14px; }
+          .gallery-caption { opacity: 1; transform: translateY(0); padding-top: 40px; }
+        }
+        @media (max-width: 520px) {
+          .gallery-mason { column-count: 1; }
         }
         .timeline-grid { display: grid; }
         @media (max-width: 980px) {
@@ -838,8 +780,6 @@ export default function WeddingApp() {
           .nav-links { width: 100%; justify-content: center; }
           .hero-section { padding: 90px 16px 72px !important; }
           .finder-section { padding: 72px 0 !important; }
-          .story-row { flex-direction: column; align-items: center; text-align: center; }
-          .story-year { width: auto !important; text-align: center !important; }
           .timeline-grid { grid-template-columns: 1fr !important; }
           .venue-stack { gap: 16px !important; }
         }
@@ -1204,12 +1144,12 @@ export default function WeddingApp() {
         </div>
       </section>
 
-      {/* ── OUR STORY ── */}
+      {/* ── OUR STORY (Gallery) ── */}
       <section ref={el => sections.current["story"] = el} style={{
         padding: "96px 24px",
         background: `linear-gradient(to bottom, #FFF3EB, ${DEEP})`,
       }}>
-        <div style={{ maxWidth: 800, margin: "0 auto" }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <div style={{ textAlign: "center", marginBottom: 56 }}>
             <p style={{ fontSize: 10, letterSpacing: 4, color: GOLD, opacity: 0.6, marginBottom: 12 }}>A LOVE STORY</p>
             <h2 style={{
@@ -1224,9 +1164,7 @@ export default function WeddingApp() {
             </div>
           </div>
 
-          {JOURNEY_ITEMS.map((item, i) => (
-            <StoryItem key={`${item.year}-${i}`} item={item} />
-          ))}
+          <Gallery items={GALLERY} />
         </div>
       </section>
 
