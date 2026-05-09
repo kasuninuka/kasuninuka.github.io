@@ -18,13 +18,12 @@ const MAP_OUTLINE = "#9C7A58";
 
 const JOURNEY_ITEMS = [
   {
-    year: "2019",
+    year: "2020",
     title: "The First Meeting",
     desc: "Fate brought two strangers together at a rainy evening gallery opening in Colombo. A shared umbrella and a shared laugh became the beginning of everything.",
     images: [
       "/start1.jpeg",
       "/start2.jpeg",
-      "/start3.jpeg",
     ],
   },
   {
@@ -38,13 +37,11 @@ const JOURNEY_ITEMS = [
     ],
   },
   {
-    year: "2023",
+    year: "2026",
     title: "The Proposal",
     desc: "Under a canopy of stars at their favourite seaside restaurant, Alexander got down on one knee. Through happy tears, Sophia said yes.",
     images: [
       "/proposal1.jpeg",
-      "/proposal2.jpeg",
-      "/proposal3.jpeg",
     ],
   },
   {
@@ -142,20 +139,14 @@ const GUESTS = [
 
 // ── Timeline data ──────────────────────────────────────────────────
 const TIMELINE = [
-  { time: "3:00 PM", event: "Guest Arrival & Welcome Drinks", icon: "🥂" },
-  { time: "4:00 PM", event: "Ceremony Begins", icon: "💍" },
-  { time: "5:00 PM", event: "Cocktail Hour & Photography", icon: "📸" },
-  { time: "6:30 PM", event: "Grand Reception Entrance", icon: "✨" },
-  { time: "7:00 PM", event: "First Dance & Dinner Service", icon: "🍽️" },
-  { time: "9:00 PM", event: "Cake Cutting & Toasts", icon: "🎂" },
-  { time: "10:00 PM", event: "Dancing & Celebration", icon: "🎶" },
-  { time: "12:00 AM", event: "Farewell & Send-Off", icon: "🌙" },
-];
-
-const WISHES = [
-  { name: "Elena & Marco", message: "Wishing you a lifetime of love, laughter, and endless adventures together. You two are truly made for each other.", date: "May 2026" },
-  { name: "The Williams Family", message: "May your love grow stronger with every passing year. So happy to celebrate this beautiful day with you both!", date: "May 2026" },
-  { name: "Sophie Chen", message: "You've both found your forever in each other. Here's to a marriage full of joy and all the good things life has to offer.", date: "May 2026" },
+  { time: "8:30 AM", event: "Guest Arrival & Welcome", icon: "🥂" },
+  { time: "9:00 AM", event: "Poruwa Ceremony", icon: "💍" },
+  { time: "10:00 AM", event: "Signing of the Register", icon: "✍️" },
+  { time: "10:30 AM", event: "Photography & Group Photos", icon: "📸" },
+  { time: "11:00 AM", event: "Reception & Brunch", icon: "🍽️" },
+  { time: "12:30 PM", event: "Cake Cutting & Toasts", icon: "🎂" },
+  { time: "1:00 PM", event: "First Dance & Celebration", icon: "🎶" },
+  { time: "2:00 PM", event: "Farewell & Send-Off", icon: "✨" },
 ];
 
 // ── Fuzzy search ───────────────────────────────────────────────────
@@ -293,10 +284,21 @@ function HallMap({ selectedTable, onTableClick, highlightGuests }) {
           0%, 100% { opacity: 0.6; r: 38; }
           50% { opacity: 1; r: 46; }
         }
-        @keyframes selectedHalo {
-          0% { transform: scale(0.96); opacity: 0.25; }
-          50% { transform: scale(1.12); opacity: 0.7; }
-          100% { transform: scale(1); opacity: 0.35; }
+        @keyframes selectedRingBreathe {
+          0%, 100% { opacity: 0.25; }
+          50%      { opacity: 0.75; }
+        }
+        @keyframes selectedHaloBreathe {
+          0%, 100% { opacity: 0.10; }
+          50%      { opacity: 0.22; }
+        }
+        @keyframes selectedTableGlow {
+          0%, 100% { filter: drop-shadow(0 0 2px ${GOLD}40); }
+          50%      { filter: drop-shadow(0 0 8px ${GOLD}90); }
+        }
+        @keyframes selectedTwinkle {
+          0%, 100% { opacity: 0; transform: scale(0.5); }
+          50%      { opacity: 1; transform: scale(1); }
         }
       `}</style>
 
@@ -390,20 +392,43 @@ function HallMap({ selectedTable, onTableClick, highlightGuests }) {
             transform={`translate(${table.x}, ${table.y})`}
           >
             {isSelected && (
-              <circle
-                r="34"
-                fill="none"
-                stroke={GOLD}
-                strokeWidth="2"
-                opacity="0.45"
-                style={{ animation: `selectedHalo 1.4s ease-in-out infinite`, transformOrigin: "center" }}
-              />
+              <>
+                {/* Soft static halo, breathes opacity only */}
+                <circle
+                  r="32" fill={GOLD}
+                  style={{
+                    filter: "blur(8px)",
+                    animation: "selectedHaloBreathe 2.6s ease-in-out infinite",
+                  }}
+                />
+                {/* Thin gold ring just outside the table — holds position, breathes */}
+                <circle
+                  r="27" fill="none" stroke={GOLD} strokeWidth="1"
+                  style={{ animation: "selectedRingBreathe 2.6s ease-in-out infinite" }}
+                />
+              </>
             )}
-            <circle r="22" fill={isSelected ? BLUSH : CREAM} stroke={isSelected ? GOLD : GOLD_DARK} strokeWidth={isSelected ? 2 : 1} />
-            <text x="0" y="5" textAnchor="middle" fill={MAP_TEXT}
+            <circle
+              r="22"
+              fill={isSelected ? BLUSH : CREAM}
+              stroke={isSelected ? GOLD : GOLD_DARK}
+              strokeWidth={isSelected ? 2 : 1}
+              style={isSelected ? {
+                animation: "selectedTableGlow 2.6s ease-in-out infinite",
+                transformOrigin: "center",
+              } : undefined}
+            />
+            <text x="0" y="0" textAnchor="middle" dominantBaseline="central" fill={MAP_TEXT}
               fontSize="12" fontFamily="Georgia, serif" fontWeight={isSelected ? "700" : "600"}>
               {table.label}
             </text>
+            {isSelected && (
+              <text
+                x="0" y="-30" textAnchor="middle" dominantBaseline="central"
+                fill={GOLD} fontSize="9"
+                style={{ animation: "selectedTwinkle 2.6s ease-in-out infinite" }}
+              >✦</text>
+            )}
           </g>
         );
         })}
@@ -548,26 +573,31 @@ function GuestCard({ guest, onClose }) {
 
 function StoryItem({ item }) {
   const [activeIndex, setActiveIndex] = useState(0);
-  const hasImages = Array.isArray(item.images) && item.images.length > 0;
+  const images = Array.isArray(item.images) ? item.images : [];
+  const hasImages = images.length > 0;
+  const hasMultiple = images.length > 1;
 
   return (
     <div className="story-row" style={{
       display: "flex", gap: 24, marginBottom: 40, alignItems: "flex-start",
     }}>
-      <div className="story-year" style={{ textAlign: "right", width: 80, flexShrink: 0, paddingTop: 4 }}>
-        <div style={{ color: GOLD, fontSize: 13, fontFamily: "Georgia, serif", fontStyle: "italic" }}>{item.year}</div>
-      </div>
-      {/* <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 0 }}>
+      <div className="story-year" style={{ textAlign: "right", width: 110, flexShrink: 0, paddingTop: 2 }}>
         <div style={{
-          width: 36, height: 36, borderRadius: "50%",
-          background: `radial-gradient(circle, ${GOLD_DARK}40, transparent)`,
-          border: `1px solid ${GOLD}60`,
-          display: "flex", alignItems: "center", justifyContent: "center",
-          fontSize: 16, flexShrink: 0,
-        }}>{item.icon}</div>
-        <div style={{ width: 1, flex: 1, background: `linear-gradient(to bottom, ${GOLD}40, transparent)`, marginTop: 8 }} />
-      </div> */}
-      <div style={{ flex: 1, paddingBottom: 32 }}>
+          color: GOLD,
+          fontSize: "clamp(28px, 3.4vw, 38px)",
+          fontFamily: "'Cormorant Garamond', serif",
+          fontStyle: "italic",
+          fontWeight: 300,
+          lineHeight: 1,
+          letterSpacing: 1,
+        }}>{item.year}</div>
+        <div style={{
+          marginTop: 8, marginLeft: "auto",
+          width: 28, height: 1,
+          background: `linear-gradient(to right, transparent, ${GOLD_DARK})`,
+        }} />
+      </div>
+      <div style={{ flex: 1, paddingBottom: 32, minWidth: 0 }}>
         <h3 style={{
           fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic",
           color: INK, fontSize: 20, fontWeight: 400, margin: "0 0 8px",
@@ -576,9 +606,9 @@ function StoryItem({ item }) {
           {item.desc}
         </p>
         {hasImages && (
-          <div style={{ marginTop: 14 }}>
-            <div className="story-carousel">
-              {item.images.map((src, idx) => (
+          <div style={{ marginTop: 18 }}>
+            <div className="story-frame">
+              {images.map((src, idx) => (
                 <div
                   key={src}
                   className={`story-slide${idx === activeIndex ? " active" : ""}`}
@@ -587,30 +617,33 @@ function StoryItem({ item }) {
                 </div>
               ))}
             </div>
-            <div className="story-controls">
-              <button
-                className="story-arrow"
-                onClick={() => setActiveIndex((activeIndex - 1 + item.images.length) % item.images.length)}
-                aria-label={`Previous ${item.title} photo`}
-              >
-                ◀
-              </button>
-              {item.images.map((_, idx) => (
+            {hasMultiple && (
+              <div className="story-controls">
                 <button
-                  key={idx}
-                  className={`story-dot${idx === activeIndex ? " active" : ""}`}
-                  onClick={() => setActiveIndex(idx)}
-                  aria-label={`Show ${item.title} photo ${idx + 1}`}
-                />
-              ))}
-              <button
-                className="story-arrow"
-                onClick={() => setActiveIndex((activeIndex + 1) % item.images.length)}
-                aria-label={`Next ${item.title} photo`}
-              >
-                ▶
-              </button>
-            </div>
+                  className="story-arrow"
+                  onClick={() => setActiveIndex((activeIndex - 1 + images.length) % images.length)}
+                  aria-label={`Previous ${item.title} photo`}
+                >‹</button>
+                <div className="story-progress">
+                  {images.map((_, idx) => (
+                    <button
+                      key={idx}
+                      className={`story-bar${idx === activeIndex ? " active" : ""}`}
+                      onClick={() => setActiveIndex(idx)}
+                      aria-label={`Show ${item.title} photo ${idx + 1}`}
+                    />
+                  ))}
+                </div>
+                <span className="story-counter">
+                  {String(activeIndex + 1).padStart(2, "0")} / {String(images.length).padStart(2, "0")}
+                </span>
+                <button
+                  className="story-arrow"
+                  onClick={() => setActiveIndex((activeIndex + 1) % images.length)}
+                  aria-label={`Next ${item.title} photo`}
+                >›</button>
+              </div>
+            )}
           </div>
         )}
       </div>
@@ -627,10 +660,6 @@ export default function WeddingApp() {
   const [selectedTable, setSelectedTable] = useState(null);
   const [activeSection, setActiveSection] = useState("hero");
   const [showDropdown, setShowDropdown] = useState(false);
-  const [wishText, setWishText] = useState("");
-  const [wishes, setWishes] = useState(WISHES);
-  const [wishName, setWishName] = useState("");
-  const [wishSent, setWishSent] = useState(false);
   const [mapHints, setMapHints] = useState(true);
   const inputRef = useRef(null);
   const sections = useRef({});
@@ -673,21 +702,11 @@ export default function WeddingApp() {
     setActiveSection(id);
   };
 
-  const handleSendWish = () => {
-    if (!wishText.trim() || !wishName.trim()) return;
-    setWishes(prev => [{ name: wishName, message: wishText, date: "May 2026" }, ...prev]);
-    setWishText("");
-    setWishName("");
-    setWishSent(true);
-    setTimeout(() => setWishSent(false), 3000);
-  };
-
   const navItems = [
     { id: "hero", label: "Welcome" },
     { id: "finder", label: "Find My Table" },
     { id: "story", label: "Our Story" },
     { id: "timeline", label: "Schedule" },
-    { id: "wishes", label: "Wishes" },
   ];
 
   if (!mounted) {
@@ -721,56 +740,87 @@ export default function WeddingApp() {
         .search-input:focus { outline: none; border-color: ${GOLD} !important; box-shadow: 0 0 20px ${GOLD}20 !important; }
         .result-item:hover { background: rgba(181,138,90,0.12) !important; }
         .cta-btn:hover { background: ${GOLD} !important; color: ${INK} !important; transform: scale(1.02); }
-        .wish-btn:hover { background: ${GOLD} !important; color: ${INK} !important; }
         .table-row:hover { background: rgba(181,138,90,0.07) !important; }
         .nav-bar { gap: 16px; }
         .nav-links { display: flex; gap: 20px; }
         .nav-links button { white-space: nowrap; }
         .finder-grid { display: grid; }
         .story-row { display: flex; gap: 24px; }
-        .story-carousel {
+        .story-frame {
           position: relative;
           width: 100%;
-          height: 160px;
+          height: clamp(240px, 38vw, 400px);
           border-radius: 14px;
           border: 1px solid ${GOLD_DARK}40;
           overflow: hidden;
-          background: #fff;
-          box-shadow: 0 12px 24px rgba(0,0,0,0.06);
+          background: #FFF7F0;
+          box-shadow: 0 18px 36px rgba(91,67,50,0.10), 0 2px 8px rgba(91,67,50,0.04);
           animation: carouselFloat 0.6s ease both;
         }
         .story-slide {
           position: absolute;
           inset: 0;
           opacity: 0;
-          transition: opacity 0.4s ease;
+          transition: opacity 0.6s ease;
         }
         .story-slide.active { opacity: 1; }
-        .story-slide img { width: 100%; height: 100%; object-fit: cover; display: block; animation: kenBurns 18s ease-in-out infinite; }
+        .story-slide img {
+          width: 100%; height: 100%;
+          object-fit: cover;
+          object-position: center 30%;
+          display: block;
+          animation: kenBurns 18s ease-in-out infinite;
+        }
         .story-controls {
           display: flex;
           align-items: center;
-          gap: 10px;
-          margin-top: 10px;
+          justify-content: center;
+          gap: 18px;
+          margin-top: 16px;
         }
-        .story-dot {
-          width: 8px;
-          height: 8px;
-          border-radius: 999px;
-          background: ${GOLD_DARK};
-          opacity: 0.4;
-          border: none;
-          cursor: pointer;
-        }
-        .story-dot.active { opacity: 1; background: ${GOLD}; }
         .story-arrow {
-          border: 1px solid ${GOLD_DARK};
-          background: rgba(255,253,250,0.9);
-          color: ${INK};
-          border-radius: 999px;
-          padding: 6px 10px;
+          background: none;
+          border: none;
+          color: ${GOLD_DARK};
+          font-family: 'Cormorant Garamond', serif;
+          font-size: 26px;
+          line-height: 1;
+          padding: 2px 6px;
           cursor: pointer;
-          font-size: 12px;
+          opacity: 0.6;
+          transition: opacity 0.25s, color 0.25s, transform 0.25s;
+        }
+        .story-arrow:hover { opacity: 1; color: ${GOLD}; transform: translateY(-1px); }
+        .story-progress {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+        }
+        .story-bar {
+          width: 22px;
+          height: 2px;
+          background: ${GOLD_DARK};
+          opacity: 0.3;
+          border: none;
+          padding: 0;
+          cursor: pointer;
+          border-radius: 1px;
+          transition: opacity 0.35s ease, width 0.35s ease, background 0.35s ease;
+        }
+        .story-bar.active {
+          opacity: 1;
+          background: ${GOLD};
+          width: 36px;
+        }
+        .story-counter {
+          color: ${GOLD};
+          font-size: 10px;
+          letter-spacing: 3px;
+          font-family: Georgia, serif;
+          opacity: 0.7;
+          font-variant-numeric: tabular-nums;
+          min-width: 56px;
+          text-align: center;
         }
         .timeline-grid { display: grid; }
         @media (max-width: 980px) {
@@ -787,7 +837,7 @@ export default function WeddingApp() {
           .nav-brand { width: 100%; text-align: center; }
           .nav-links { width: 100%; justify-content: center; }
           .hero-section { padding: 90px 16px 72px !important; }
-          .finder-section { padding: 72px 0 32px !important; }
+          .finder-section { padding: 72px 0 !important; }
           .story-row { flex-direction: column; align-items: center; text-align: center; }
           .story-year { width: auto !important; text-align: center !important; }
           .timeline-grid { grid-template-columns: 1fr !important; }
@@ -796,7 +846,6 @@ export default function WeddingApp() {
         @media (max-width: 520px) {
           .map-shell { height: 340px !important; }
           .guest-card-wrap { width: 100% !important; }
-          .wishes-card { padding: 20px !important; }
           .cta-btn { width: 100%; max-width: 280px; }
         }
       `}</style>
@@ -938,7 +987,8 @@ export default function WeddingApp() {
           cursor: "pointer",
           borderRadius: 2,
           transition: "all 0.4s",
-          animation: "fadeUp 1s 1.5s both, glow-pulse 3s 2s infinite",
+          animation: "fadeUp 1s 1.5s both",
+          boxShadow: `0 0 24px ${GOLD}25`,
         }}>
           FIND YOUR TABLE
         </button>
@@ -957,7 +1007,7 @@ export default function WeddingApp() {
 
       {/* ── TABLE FINDER SECTION ── */}
       <section className="finder-section" ref={el => sections.current["finder"] = el} style={{
-        minHeight: "100vh", padding: "80px 0 40px",
+        padding: "96px 0",
         background: `linear-gradient(to bottom, ${DEEP}, #FFF3EB)`,
       }}>
         {/* Section heading */}
@@ -1019,7 +1069,7 @@ export default function WeddingApp() {
               background: "rgba(255,253,250,0.98)", border: `1px solid ${GOLD_DARK}`,
               borderRadius: 8, overflow: "hidden", zIndex: 50,
               backdropFilter: "blur(16px)",
-              boxShadow: `0 16px 40px rgba(0,0,0,0.6)`,
+              boxShadow: `0 18px 48px rgba(91,67,50,0.14), 0 2px 8px rgba(91,67,50,0.06)`,
             }}>
               {results.map(guest => (
                 <div
@@ -1091,11 +1141,19 @@ export default function WeddingApp() {
                 position: "absolute", top: "50%", left: "50%",
                 transform: "translate(-50%, -50%)",
                 zIndex: 10, textAlign: "center", pointerEvents: "none",
-                background: "rgba(255,253,250,0.9)", padding: "20px 30px",
-                borderRadius: 12, border: `1px solid ${GOLD_DARK}30`,
+                background: "rgba(255,253,250,0.92)",
+                padding: "22px 32px",
+                borderRadius: 12,
+                border: `1px solid ${GOLD_DARK}40`,
+                boxShadow: "0 12px 32px rgba(91,67,50,0.08)",
+                backdropFilter: "blur(8px)",
               }}>
-                <div style={{ fontSize: 28, marginBottom: 8, opacity: 0.6 }}>🔍</div>
-                <div style={{ color: INK, fontSize: 12, opacity: 0.75, fontFamily: "Georgia, serif" }}>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 10, marginBottom: 10 }}>
+                  <div style={{ width: 22, height: 1, background: GOLD_DARK, opacity: 0.6 }} />
+                  <span style={{ color: GOLD, fontSize: 12, letterSpacing: 2 }}>✦</span>
+                  <div style={{ width: 22, height: 1, background: GOLD_DARK, opacity: 0.6 }} />
+                </div>
+                <div style={{ color: INK, fontSize: 12, opacity: 0.78, fontFamily: "Georgia, serif", letterSpacing: 0.5 }}>
                   Search your name above to find your table
                 </div>
               </div>
@@ -1148,36 +1206,37 @@ export default function WeddingApp() {
 
       {/* ── OUR STORY ── */}
       <section ref={el => sections.current["story"] = el} style={{
-        padding: "80px 24px",
+        padding: "96px 24px",
         background: `linear-gradient(to bottom, #FFF3EB, ${DEEP})`,
-        maxWidth: 800, margin: "0 auto",
       }}>
-        <div style={{ textAlign: "center", marginBottom: 56 }}>
-          <p style={{ fontSize: 10, letterSpacing: 4, color: GOLD, opacity: 0.6, marginBottom: 12 }}>A LOVE STORY</p>
-          <h2 style={{
-            fontFamily: "'Cormorant Garamond', serif",
-            fontSize: "clamp(32px, 5vw, 52px)", fontWeight: 300, fontStyle: "italic",
-            color: INK, margin: "0 0 16px",
-          }}>Our Journey</h2>
-          <div style={{ display: "flex", alignItems: "center", gap: 12, justifyContent: "center" }}>
-            <div style={{ width: 40, height: 1, background: GOLD_DARK }} />
-            <span style={{ color: GOLD }}>✦</span>
-            <div style={{ width: 40, height: 1, background: GOLD_DARK }} />
+        <div style={{ maxWidth: 800, margin: "0 auto" }}>
+          <div style={{ textAlign: "center", marginBottom: 56 }}>
+            <p style={{ fontSize: 10, letterSpacing: 4, color: GOLD, opacity: 0.6, marginBottom: 12 }}>A LOVE STORY</p>
+            <h2 style={{
+              fontFamily: "'Cormorant Garamond', serif",
+              fontSize: "clamp(32px, 5vw, 52px)", fontWeight: 300, fontStyle: "italic",
+              color: INK, margin: "0 0 16px",
+            }}>Our Journey</h2>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, justifyContent: "center" }}>
+              <div style={{ width: 40, height: 1, background: GOLD_DARK }} />
+              <span style={{ color: GOLD }}>✦</span>
+              <div style={{ width: 40, height: 1, background: GOLD_DARK }} />
+            </div>
           </div>
-        </div>
 
-        {JOURNEY_ITEMS.map((item, i) => (
-          <StoryItem key={`${item.year}-${i}`} item={item} />
-        ))}
+          {JOURNEY_ITEMS.map((item, i) => (
+            <StoryItem key={`${item.year}-${i}`} item={item} />
+          ))}
+        </div>
       </section>
 
       {/* ── TIMELINE ── */}
       <section ref={el => sections.current["timeline"] = el} style={{
-        padding: "80px 24px",
+        padding: "96px 24px",
         background: `radial-gradient(ellipse at 50% 0%, #FFF2E6 0%, ${DEEP} 60%)`,
       }}>
         <div style={{ textAlign: "center", marginBottom: 48, maxWidth: 800, margin: "0 auto 48px" }}>
-          <p style={{ fontSize: 10, letterSpacing: 4, color: GOLD, opacity: 0.6, marginBottom: 12 }}>17 MAY 2026</p>
+          <p style={{ fontSize: 10, letterSpacing: 4, color: GOLD, opacity: 0.6, marginBottom: 12 }}>13 MAY 2026</p>
           <h2 style={{
             fontFamily: "'Cormorant Garamond', serif",
             fontSize: "clamp(32px, 5vw, 52px)", fontWeight: 300, fontStyle: "italic",
@@ -1307,90 +1366,6 @@ export default function WeddingApp() {
         </div>
       </section>
 
-      {/* ── WISHES ── */}
-      <section ref={el => sections.current["wishes"] = el} style={{
-        padding: "80px 24px",
-        background: `linear-gradient(to bottom, ${DEEP}, #FFF3EB)`,
-      }}>
-        <div style={{ textAlign: "center", marginBottom: 48 }}>
-          <p style={{ fontSize: 10, letterSpacing: 4, color: GOLD, opacity: 0.6, marginBottom: 12 }}>SHARE YOUR LOVE</p>
-          <h2 style={{
-            fontFamily: "'Cormorant Garamond', serif",
-            fontSize: "clamp(32px, 5vw, 52px)", fontWeight: 300, fontStyle: "italic",
-            color: INK, margin: "0 0 16px",
-          }}>Wishes & Messages</h2>
-          <div style={{ display: "flex", alignItems: "center", gap: 12, justifyContent: "center" }}>
-            <div style={{ width: 40, height: 1, background: GOLD_DARK }} />
-            <span style={{ color: GOLD }}>✦</span>
-            <div style={{ width: 40, height: 1, background: GOLD_DARK }} />
-          </div>
-        </div>
-
-        <div style={{ maxWidth: 700, margin: "0 auto" }}>
-          {/* Submit form */}
-          <div className="wishes-card" style={{
-            background: "rgba(255,247,240,0.8)", border: `1px solid ${GOLD_DARK}`,
-            borderRadius: 16, padding: 28, marginBottom: 32,
-          }}>
-            <h3 style={{
-              fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic",
-              color: INK, fontSize: 18, fontWeight: 300, margin: "0 0 20px",
-            }}>Leave Your Wishes</h3>
-            <input
-              type="text" placeholder="Your name..."
-              value={wishName} onChange={e => setWishName(e.target.value)}
-              style={{
-                width: "100%", padding: "12px 14px", marginBottom: 12,
-                background: "rgba(255,253,250,0.8)", border: `1px solid ${GOLD_DARK}`,
-                borderRadius: 8, color: INK, fontSize: 13, fontFamily: "Georgia, serif",
-              }}
-            />
-            <textarea
-              placeholder="Write your heartfelt wishes for the couple..."
-              value={wishText} onChange={e => setWishText(e.target.value)}
-              rows={4}
-              style={{
-                width: "100%", padding: "12px 14px", marginBottom: 16,
-                background: "rgba(255,253,250,0.8)", border: `1px solid ${GOLD_DARK}`,
-                borderRadius: 8, color: INK, fontSize: 13, fontFamily: "Georgia, serif",
-                resize: "vertical",
-              }}
-            />
-            <button onClick={handleSendWish} className="wish-btn" style={{
-              padding: "12px 32px",
-              background: "transparent", border: `1px solid ${GOLD}`,
-              color: GOLD, fontSize: 11, letterSpacing: 3,
-              fontFamily: "Georgia, serif", cursor: "pointer", borderRadius: 4,
-              transition: "all 0.3s",
-            }}>
-              {wishSent ? "✦ WISH SENT ✦" : "SEND WISHES"}
-            </button>
-          </div>
-
-          {/* Wishes list */}
-          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-            {wishes.map((wish, i) => (
-              <div key={i} style={{
-                background: "rgba(255,247,240,0.6)", border: `1px solid ${GOLD_DARK}30`,
-                borderRadius: 12, padding: 20,
-                borderLeft: `2px solid ${GOLD}50`,
-              }}>
-                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 10 }}>
-                  <span style={{ color: INK, fontSize: 13, fontStyle: "italic" }}>{wish.name}</span>
-                  <span style={{ color: GOLD, fontSize: 10, opacity: 0.6 }}>{wish.date}</span>
-                </div>
-                <p style={{
-                  color: INK, fontSize: 13, opacity: 0.8, lineHeight: 1.7, margin: 0,
-                  fontStyle: "italic", fontFamily: "'Cormorant Garamond', serif",
-                }}>
-                  "{wish.message}"
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* ── FOOTER ── */}
       <footer style={{
         padding: "48px 24px",
@@ -1408,10 +1383,10 @@ export default function WeddingApp() {
         <div style={{ fontSize: 9, letterSpacing: 4, color: GOLD, opacity: 0.5, marginBottom: 20 }}>
           13 MAY 2026
         </div>
-        <div style={{ display: "flex", justifyContent: "center", gap: 24, marginBottom: 24 }}>
-          {["✦", "♥", "✦"].map((s, i) => (
-            <span key={i} style={{ color: GOLD, opacity: 0.5, fontSize: 12 }}>{s}</span>
-          ))}
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 14, marginBottom: 24 }}>
+          <div style={{ width: 56, height: 1, background: `linear-gradient(to right, transparent, ${GOLD_DARK})`, opacity: 0.7 }} />
+          <span style={{ color: GOLD, opacity: 0.7, fontSize: 12, letterSpacing: 4 }}>✦</span>
+          <div style={{ width: 56, height: 1, background: `linear-gradient(to left, transparent, ${GOLD_DARK})`, opacity: 0.7 }} />
         </div>
         <p style={{ color: INK, fontSize: 11, opacity: 0.6, margin: 0 }}>
           Made with love by Kasuni & Inuka. Please join us in celebrating our special day!
