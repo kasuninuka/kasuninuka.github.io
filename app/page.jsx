@@ -11,10 +11,48 @@ const DEEP = "#FFFFFF";
 const CHAMPAGNE = "#3F2F23";
 const BLUSH = "#F8E9E4";
 const INK = "#3B2A1E";
-const MAP_GREEN = "#3BC8A0";
-const MAP_GREEN_DARK = "#1F8F73";
-const MAP_TEXT = "#C7332E";
-const MAP_OUTLINE = "#2B2B2B";
+const MAP_GREEN = "#F4E5D6";
+const MAP_GREEN_DARK = "#E8D1BF";
+const MAP_TEXT = "#3B2A1E";
+const MAP_OUTLINE = "#9C7A58";
+
+const JOURNEY_ITEMS = [
+  {
+    year: "2019",
+    title: "The First Meeting",
+    desc: "Fate brought two strangers together at a rainy evening gallery opening in Colombo. A shared umbrella and a shared laugh became the beginning of everything.",
+    images: [
+      "/start1.jpeg",
+      "/start2.jpeg",
+      "/start3.jpeg",
+    ],
+  },
+  {
+    year: "2021",
+    title: "Adventures Together",
+    desc: "From cobblestone streets in Lisbon to sunrise hikes in the highlands, every adventure deepened our love and built a treasure trove of shared memories.",
+    images: [
+      "/adventure1.jpeg",
+      "/adventure2.jpeg",
+      "/adventure3.jpeg",
+    ],
+  },
+  {
+    year: "2023",
+    title: "The Proposal",
+    desc: "Under a canopy of stars at their favourite seaside restaurant, Alexander got down on one knee. Through happy tears, Sophia said yes.",
+    images: [
+      "/proposal1.jpeg",
+      "/proposal2.jpeg",
+      "/proposal3.jpeg",
+    ],
+  },
+  {
+    year: "2026",
+    title: "Forever Begins Today",
+    desc: "Today, surrounded by everyone who has loved and supported us, we make our promise to each other — for all of time.",
+  },
+];
 
 // ── Mock guest data ────────────────────────────────────────────────
 const TABLES = [
@@ -43,23 +81,48 @@ const TABLES = [
   { id: "T19", x: 300, y: 730, label: "19" },
   { id: "T20", x: 380, y: 730, label: "20" },
 
-  { id: "T21", x: 480, y: 410, label: "21" },
-  { id: "T22", x: 560, y: 410, label: "22" },
-  { id: "T23", x: 640, y: 410, label: "23" },
-  { id: "T24", x: 720, y: 410, label: "24" },
+  { id: "T21", x: 450, y: 410, label: "21" },
+  { id: "T22", x: 530, y: 410, label: "22" },
+  { id: "T23", x: 610, y: 410, label: "23" },
+  { id: "T24", x: 690, y: 410, label: "24" },
 
-  { id: "T25", x: 480, y: 500, label: "25" },
-  { id: "T26", x: 560, y: 500, label: "26" },
-  { id: "T27", x: 640, y: 500, label: "27" },
-  { id: "T28", x: 720, y: 500, label: "28" },
+  { id: "T25", x: 450, y: 500, label: "25" },
+  { id: "T26", x: 530, y: 500, label: "26" },
+  { id: "T27", x: 610, y: 500, label: "27" },
+  { id: "T28", x: 690, y: 500, label: "28" },
 
-  { id: "T29", x: 480, y: 640, label: "29" },
-  { id: "T30", x: 560, y: 640, label: "30" },
-  { id: "T31", x: 640, y: 640, label: "31" },
-  { id: "T32", x: 720, y: 640, label: "32" },
+  { id: "T29", x: 450, y: 640, label: "29" },
+  { id: "T30", x: 530, y: 640, label: "30" },
+  { id: "T31", x: 610, y: 640, label: "31" },
+  { id: "T32", x: 690, y: 640, label: "32" },
 ];
 
 const PILLARS = [
+  { id: "P1", x: 120, y: 570 },
+  { id: "P2", x: 220, y: 570 },
+  { id: "P3", x: 320, y: 570 },
+  { id: "P4", x: 480, y: 570 },
+  { id: "P5", x: 580, y: 570 },
+  { id: "P6", x: 720, y: 570 },
+];
+
+const GUESTS = [
+  { id: 1, name: "Amelia Hartwell", table: "T01", seat: "S2", group: "Bride's Family", initials: "AH" },
+  { id: 2, name: "Benjamin Ashford", table: "T01", seat: "S4", group: "Bride's Family", initials: "BA" },
+  { id: 3, name: "Charlotte Voss", table: "T02", seat: "S1", group: "Groom's Family", initials: "CV" },
+  { id: 4, name: "Dominic Laurent", table: "T02", seat: "S3", group: "Groom's Family", initials: "DL" },
+  { id: 5, name: "Eleanor Whitmore", table: "T03", seat: "S2", group: "College Friends", initials: "EW" },
+  { id: 6, name: "Felix Donovan", table: "T03", seat: "S5", group: "College Friends", initials: "FD" },
+  { id: 7, name: "Grace Sutherland", table: "T04", seat: "S1", group: "Work Colleagues", initials: "GS" },
+  { id: 8, name: "Henry Blackwood", table: "T04", seat: "S3", group: "Work Colleagues", initials: "HB" },
+  { id: 9, name: "Isabella Moreau", table: "T05", seat: "S2", group: "Childhood Friends", initials: "IM" },
+  { id: 10, name: "James Thornton", table: "T05", seat: "S4", group: "Childhood Friends", initials: "JT" },
+  { id: 11, name: "Katherine Lin", table: "T06", seat: "S1", group: "Bride's Family", initials: "KL" },
+  { id: 12, name: "Lucas Beaumont", table: "T06", seat: "S6", group: "Bride's Family", initials: "LB" },
+  { id: 13, name: "Margaret Holloway", table: "T07", seat: "S2", group: "Groom's Family", initials: "MH" },
+  { id: 14, name: "Nathan Prescott", table: "T07", seat: "S4", group: "Groom's Family", initials: "NP" },
+  { id: 15, name: "Olivia Sinclair", table: "T08", seat: "S1", group: "VIP Guests", initials: "OS" },
+  { id: 16, name: "Patrick Wren", table: "T08", seat: "S3", group: "VIP Guests", initials: "PW" },
   { id: 17, name: "Quinn Aldridge", table: "T09", seat: "S2", group: "College Friends", initials: "QA" },
   { id: 18, name: "Rosalind Foley", table: "T09", seat: "S5", group: "College Friends", initials: "RF" },
   { id: 19, name: "Sebastian Crane", table: "T10", seat: "S1", group: "Work Colleagues", initials: "SC" },
@@ -164,10 +227,16 @@ function HallMap({ selectedTable, onTableClick, highlightGuests }) {
       if (t && svgRef.current) {
         const svgW = svgRef.current.clientWidth;
         const svgH = svgRef.current.clientHeight;
-        const scale = 2.2;
+        const scale = 2.35;
+        const viewBoxWidth = 800;
+        const viewBoxHeight = 900;
+        const xRatio = svgW / viewBoxWidth;
+        const yRatio = svgH / viewBoxHeight;
+        const tableCenterX = (t.x + 26) * xRatio;
+        const tableCenterY = (t.y + 26) * yRatio;
         setTransform({
-          x: svgW / 2 - t.x * scale,
-          y: svgH / 2 - t.y * scale,
+          x: svgW / 2 - tableCenterX * scale,
+          y: svgH / 2 - tableCenterY * scale,
           scale,
         });
       }
@@ -224,6 +293,11 @@ function HallMap({ selectedTable, onTableClick, highlightGuests }) {
           0%, 100% { opacity: 0.6; r: 38; }
           50% { opacity: 1; r: 46; }
         }
+        @keyframes selectedHalo {
+          0% { transform: scale(0.96); opacity: 0.25; }
+          50% { transform: scale(1.12); opacity: 0.7; }
+          100% { transform: scale(1); opacity: 0.35; }
+        }
       `}</style>
 
       <svg
@@ -239,86 +313,100 @@ function HallMap({ selectedTable, onTableClick, highlightGuests }) {
         <defs>
           <radialGradient id="hallGrad" cx="50%" cy="50%" r="60%">
             <stop offset="0%" stopColor="#FFFFFF" />
-            <stop offset="100%" stopColor="#FFF8F0" />
+            <stop offset="100%" stopColor="#FFF7F0" />
           </radialGradient>
         </defs>
 
         {/* Hall floor */}
-        <rect x="60" y="60" width="680" height="780" rx="16" fill="url(#hallGrad)" stroke={MAP_OUTLINE} strokeWidth="1" />
+        <rect x="60" y="60" width="710" height="780" rx="16" fill="url(#hallGrad)" stroke={GOLD_DARK} strokeWidth="1" />
 
         {/* Title */}
-        <text x="400" y="48" textAnchor="middle" fill={MAP_OUTLINE} fontSize="22" fontFamily="Georgia, serif" letterSpacing="3">
+        <text x="400" y="48" textAnchor="middle" fill={INK} fontSize="22" fontFamily="Georgia, serif" letterSpacing="3">
           TABLE PLAN
         </text>
 
         {/* Service areas */}
-        <text x="85" y="85" fill={MAP_OUTLINE} fontSize="10" fontFamily="Georgia, serif">Service area</text>
-        <text x="650" y="85" fill={MAP_OUTLINE} fontSize="10" fontFamily="Georgia, serif">Service area</text>
+        <text x="85" y="85" fill={INK} fontSize="10" fontFamily="Georgia, serif">Service area</text>
+        <text x="650" y="85" fill={INK} fontSize="10" fontFamily="Georgia, serif">Service area</text>
 
         {/* Settee back */}
-        <rect x="250" y="90" width="300" height="60" fill={MAP_GREEN} stroke={MAP_OUTLINE} strokeWidth="1" />
-        <text x="400" y="125" textAnchor="middle" fill={MAP_OUTLINE} fontSize="16" fontFamily="Georgia, serif">Settee Back</text>
+        <rect x="250" y="90" width="300" height="60" fill={BLUSH} stroke={GOLD_DARK} strokeWidth="1" />
+        <text x="400" y="125" textAnchor="middle" fill={INK} fontSize="16" fontFamily="Georgia, serif">Settee Back</text>
 
         {/* Poruwa */}
         <g transform="rotate(-20 140 165)">
-          <rect x="90" y="130" width="100" height="70" fill={MAP_GREEN} stroke={MAP_OUTLINE} strokeWidth="1" />
-          <text x="140" y="170" textAnchor="middle" fill={MAP_OUTLINE} fontSize="12" fontFamily="Georgia, serif">Poruwa</text>
+          <rect x="90" y="130" width="100" height="70" fill={BLUSH} stroke={GOLD_DARK} strokeWidth="1" />
+          <text x="140" y="170" textAnchor="middle" fill={INK} fontSize="12" fontFamily="Georgia, serif">Poruwa</text>
         </g>
 
         {/* S and B circles */}
-        <circle cx="560" cy="150" r="26" fill={MAP_GREEN} stroke={MAP_OUTLINE} strokeWidth="1" />
-        <circle cx="680" cy="150" r="26" fill={MAP_GREEN} stroke={MAP_OUTLINE} strokeWidth="1" />
-        <text x="560" y="156" textAnchor="middle" fill={MAP_OUTLINE} fontSize="14" fontFamily="Georgia, serif">S</text>
-        <text x="680" y="156" textAnchor="middle" fill={MAP_OUTLINE} fontSize="14" fontFamily="Georgia, serif">B</text>
+        <circle cx="600" cy="120" r="26" fill={CREAM} stroke={GOLD_DARK} strokeWidth="1" />
+        <circle cx="680" cy="120" r="26" fill={CREAM} stroke={GOLD_DARK} strokeWidth="1" />
+        <text x="600" y="127" textAnchor="middle" fill={INK} fontSize="14" fontFamily="Georgia, serif">S</text>
+        <text x="680" y="127" textAnchor="middle" fill={INK} fontSize="14" fontFamily="Georgia, serif">B</text>
 
         {/* Dance floor */}
-        <rect x="520" y="210" width="120" height="200" fill={MAP_GREEN} stroke={MAP_OUTLINE} strokeWidth="1" />
-        <text x="580" y="310" textAnchor="middle" fill={MAP_OUTLINE} fontSize="14" fontFamily="Georgia, serif" transform="rotate(90 580 310)">
-          DANCE FLOOR 18 x 18
+        <rect x="520" y="180" width="110" height="150" fill={BLUSH} stroke={GOLD_DARK} strokeWidth="1" />
+        <text x="525" y="270" textAnchor="middle" fill={INK} fontSize="12" fontFamily="Georgia, serif" transform="rotate(90 555 285)">
+          DANCE FLOOR
         </text>
 
         {/* Band */}
-        <rect x="660" y="230" width="70" height="180" fill={MAP_GREEN} stroke={MAP_OUTLINE} strokeWidth="1" />
-        <text x="695" y="320" textAnchor="middle" fill={MAP_OUTLINE} fontSize="12" fontFamily="Georgia, serif" transform="rotate(90 695 320)">
-          Band 18 x 8
+        <rect x="650" y="180" width="60" height="150" fill={CREAM} stroke={GOLD_DARK} strokeWidth="1" />
+        <text x="675" y="215" textAnchor="middle" fill={INK} fontSize="11" fontFamily="Georgia, serif" transform="rotate(90 655 235)">
+          Band
         </text>
 
         {/* Pillars */}
         {PILLARS.map(pillar => (
-          <circle key={pillar.id} cx={pillar.x} cy={pillar.y} r="18" fill="#FFFFFF" stroke={MAP_OUTLINE} strokeWidth="1" />
+          <circle key={pillar.id} cx={pillar.x} cy={pillar.y} r="18" fill="#FFFDFB" stroke={GOLD_DARK} strokeWidth="1" />
         ))}
 
         {/* Bar */}
-        <rect x="520" y="770" width="160" height="40" fill={MAP_GREEN} stroke={MAP_OUTLINE} strokeWidth="1" />
-        <text x="600" y="795" textAnchor="middle" fill={MAP_OUTLINE} fontSize="14" fontFamily="Georgia, serif">Bar</text>
+        <rect x="520" y="770" width="160" height="40" fill={BLUSH} stroke={GOLD_DARK} strokeWidth="1" />
+        <text x="600" y="795" textAnchor="middle" fill={INK} fontSize="14" fontFamily="Georgia, serif">Bar</text>
         {[540, 570, 600, 630].map((x, i) => (
           <g key={i} transform={`translate(${x}, 740)`}>
-            <polygon points="0,0 10,0 5,12" fill="#F5D74D" stroke={MAP_OUTLINE} strokeWidth="0.6" />
-            <polygon points="0,24 10,24 5,12" fill="#F5D74D" stroke={MAP_OUTLINE} strokeWidth="0.6" />
+            <polygon points="0,0 10,0 5,12" fill={GOLD_LIGHT} stroke={GOLD_DARK} strokeWidth="0.6" />
+            <polygon points="0,24 10,24 5,12" fill={GOLD_LIGHT} stroke={GOLD_DARK} strokeWidth="0.6" />
           </g>
         ))}
 
         {/* Entrance labels */}
-        <text x="400" y="830" textAnchor="middle" fill={MAP_OUTLINE} fontSize="12" fontFamily="Georgia, serif">ENTRANCE</text>
-        <text x="90" y="830" textAnchor="middle" fill={MAP_OUTLINE} fontSize="9" fontFamily="Georgia, serif" transform="rotate(-90 90 830)">
+        {/* <text x="400" y="830" textAnchor="middle" fill={INK} fontSize="12" fontFamily="Georgia, serif">ENTRANCE</text>
+        <text x="90" y="830" textAnchor="middle" fill={INK} fontSize="9" fontFamily="Georgia, serif" transform="rotate(-90 90 830)">
           ENTRANCE TO RED GARDEN
-        </text>
+        </text> */}
 
         {/* Tables */}
-        {TABLES.map(table => (
+        {TABLES.map(table => {
+          const isSelected = table.id === selectedTable;
+
+          return (
           <g
             key={table.id}
             onClick={() => onTableClick(table.id)}
             style={{ cursor: "pointer" }}
             transform={`translate(${table.x}, ${table.y})`}
           >
-            <circle r="26" fill={MAP_GREEN} stroke={MAP_OUTLINE} strokeWidth="1" />
+            {isSelected && (
+              <circle
+                r="34"
+                fill="none"
+                stroke={GOLD}
+                strokeWidth="2"
+                opacity="0.45"
+                style={{ animation: `selectedHalo 1.4s ease-in-out infinite`, transformOrigin: "center" }}
+              />
+            )}
+            <circle r="22" fill={isSelected ? BLUSH : CREAM} stroke={isSelected ? GOLD : GOLD_DARK} strokeWidth={isSelected ? 2 : 1} />
             <text x="0" y="5" textAnchor="middle" fill={MAP_TEXT}
-              fontSize="12" fontFamily="Georgia, serif" fontWeight="600">
+              fontSize="12" fontFamily="Georgia, serif" fontWeight={isSelected ? "700" : "600"}>
               {table.label}
             </text>
           </g>
-        ))}
+        );
+        })}
 
         {/* Decorative corner ornaments */}
         {[[80, 80], [680, 80], [80, 760], [680, 760]].map(([cx, cy], i) => (
@@ -417,9 +505,6 @@ function GuestCard({ guest, onClose }) {
         }}>
           {guest.name}
         </div>
-        <div style={{ color: GOLD_LIGHT, fontSize: 11, fontFamily: "Georgia, serif", letterSpacing: 2, opacity: 0.85 }}>
-          {guest.group.toUpperCase()}
-        </div>
       </div>
 
       {/* Details */}
@@ -429,8 +514,6 @@ function GuestCard({ guest, onClose }) {
       }}>
         {[
           { label: "Table", value: guest.table },
-          { label: "Seat", value: guest.seat },
-          { label: "Group", value: guest.group },
         ].map(({ label, value }) => (
           <div key={label} style={{
             display: "flex", justifyContent: "space-between", alignItems: "center",
@@ -456,8 +539,80 @@ function GuestCard({ guest, onClose }) {
           "{message}"
         </p>
         <p style={{ color: GOLD, fontSize: 10, margin: "6px 0 0", fontFamily: "Georgia, serif", opacity: 0.7 }}>
-          — Sophia & Alexander
+          — Kasuni & Inuka
         </p>
+      </div>
+    </div>
+  );
+}
+
+function StoryItem({ item }) {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const hasImages = Array.isArray(item.images) && item.images.length > 0;
+
+  return (
+    <div className="story-row" style={{
+      display: "flex", gap: 24, marginBottom: 40, alignItems: "flex-start",
+    }}>
+      <div className="story-year" style={{ textAlign: "right", width: 80, flexShrink: 0, paddingTop: 4 }}>
+        <div style={{ color: GOLD, fontSize: 13, fontFamily: "Georgia, serif", fontStyle: "italic" }}>{item.year}</div>
+      </div>
+      {/* <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 0 }}>
+        <div style={{
+          width: 36, height: 36, borderRadius: "50%",
+          background: `radial-gradient(circle, ${GOLD_DARK}40, transparent)`,
+          border: `1px solid ${GOLD}60`,
+          display: "flex", alignItems: "center", justifyContent: "center",
+          fontSize: 16, flexShrink: 0,
+        }}>{item.icon}</div>
+        <div style={{ width: 1, flex: 1, background: `linear-gradient(to bottom, ${GOLD}40, transparent)`, marginTop: 8 }} />
+      </div> */}
+      <div style={{ flex: 1, paddingBottom: 32 }}>
+        <h3 style={{
+          fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic",
+          color: INK, fontSize: 20, fontWeight: 400, margin: "0 0 8px",
+        }}>{item.title}</h3>
+        <p style={{ color: INK, opacity: 0.78, fontSize: 13, lineHeight: 1.8, margin: 0 }}>
+          {item.desc}
+        </p>
+        {hasImages && (
+          <div style={{ marginTop: 14 }}>
+            <div className="story-carousel">
+              {item.images.map((src, idx) => (
+                <div
+                  key={src}
+                  className={`story-slide${idx === activeIndex ? " active" : ""}`}
+                >
+                  <img src={src} alt={`${item.title} photo ${idx + 1}`} loading="lazy" />
+                </div>
+              ))}
+            </div>
+            <div className="story-controls">
+              <button
+                className="story-arrow"
+                onClick={() => setActiveIndex((activeIndex - 1 + item.images.length) % item.images.length)}
+                aria-label={`Previous ${item.title} photo`}
+              >
+                ◀
+              </button>
+              {item.images.map((_, idx) => (
+                <button
+                  key={idx}
+                  className={`story-dot${idx === activeIndex ? " active" : ""}`}
+                  onClick={() => setActiveIndex(idx)}
+                  aria-label={`Show ${item.title} photo ${idx + 1}`}
+                />
+              ))}
+              <button
+                className="story-arrow"
+                onClick={() => setActiveIndex((activeIndex + 1) % item.images.length)}
+                aria-label={`Next ${item.title} photo`}
+              >
+                ▶
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -558,6 +713,9 @@ export default function WeddingApp() {
         @keyframes gentle-bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         @keyframes glow-pulse { 0%,100% { box-shadow: 0 0 20px ${GOLD}30; } 50% { box-shadow: 0 0 40px ${GOLD}60; } }
+        @keyframes pulsePin { 0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(181,138,90,0.55); } 70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(181,138,90,0); } 100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(181,138,90,0); } }
+        @keyframes carouselFloat { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes kenBurns { 0% { transform: scale(1) translate(0, 0); } 50% { transform: scale(1.06) translate(-1%, -1%); } 100% { transform: scale(1) translate(0, 0); } }
         .nav-link { transition: color 0.3s, opacity 0.3s; }
         .nav-link:hover { color: ${GOLD} !important; opacity: 1 !important; }
         .search-input:focus { outline: none; border-color: ${GOLD} !important; box-shadow: 0 0 20px ${GOLD}20 !important; }
@@ -570,6 +728,50 @@ export default function WeddingApp() {
         .nav-links button { white-space: nowrap; }
         .finder-grid { display: grid; }
         .story-row { display: flex; gap: 24px; }
+        .story-carousel {
+          position: relative;
+          width: 100%;
+          height: 160px;
+          border-radius: 14px;
+          border: 1px solid ${GOLD_DARK}40;
+          overflow: hidden;
+          background: #fff;
+          box-shadow: 0 12px 24px rgba(0,0,0,0.06);
+          animation: carouselFloat 0.6s ease both;
+        }
+        .story-slide {
+          position: absolute;
+          inset: 0;
+          opacity: 0;
+          transition: opacity 0.4s ease;
+        }
+        .story-slide.active { opacity: 1; }
+        .story-slide img { width: 100%; height: 100%; object-fit: cover; display: block; animation: kenBurns 18s ease-in-out infinite; }
+        .story-controls {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          margin-top: 10px;
+        }
+        .story-dot {
+          width: 8px;
+          height: 8px;
+          border-radius: 999px;
+          background: ${GOLD_DARK};
+          opacity: 0.4;
+          border: none;
+          cursor: pointer;
+        }
+        .story-dot.active { opacity: 1; background: ${GOLD}; }
+        .story-arrow {
+          border: 1px solid ${GOLD_DARK};
+          background: rgba(255,253,250,0.9);
+          color: ${INK};
+          border-radius: 999px;
+          padding: 6px 10px;
+          cursor: pointer;
+          font-size: 12px;
+        }
         .timeline-grid { display: grid; }
         @media (max-width: 980px) {
           .nav-bar { padding: 10px 16px !important; }
@@ -842,7 +1044,7 @@ export default function WeddingApp() {
                     </div>
                     <div>
                       <div style={{ color: INK, fontSize: 13 }}>{guest.name}</div>
-                      <div style={{ color: GOLD, fontSize: 10, opacity: 0.7 }}>{guest.group}</div>
+                      <div style={{ color: GOLD, fontSize: 10, opacity: 0.7 }}>Table {guest.table}</div>
                     </div>
                   </div>
                   <div style={{
@@ -935,7 +1137,6 @@ export default function WeddingApp() {
                     </div>
                     <div>
                       <div style={{ color: INK, fontSize: 12 }}>{g.name}</div>
-                      <div style={{ color: GOLD, fontSize: 10, opacity: 0.6 }}>{g.seat}</div>
                     </div>
                   </div>
                 ))}
@@ -965,38 +1166,8 @@ export default function WeddingApp() {
           </div>
         </div>
 
-        {[
-          { year: "2019", title: "The First Meeting", desc: "Fate brought two strangers together at a rainy evening gallery opening in Colombo. A shared umbrella and a shared laugh became the beginning of everything.", icon: "✨" },
-          { year: "2021", title: "Adventures Together", desc: "From cobblestone streets in Lisbon to sunrise hikes in the highlands, every adventure deepened our love and built a treasure trove of shared memories.", icon: "🗺️" },
-          { year: "2023", title: "The Proposal", desc: "Under a canopy of stars at their favourite seaside restaurant, Alexander got down on one knee. Through happy tears, Sophia said yes.", icon: "💍" },
-          { year: "2026", title: "Forever Begins Today", desc: "Today, surrounded by everyone who has loved and supported us, we make our promise to each other — for all of time.", icon: "♥" },
-        ].map((item, i) => (
-          <div key={i} className="story-row" style={{
-            display: "flex", gap: 24, marginBottom: 40, alignItems: "flex-start",
-          }}>
-            <div className="story-year" style={{ textAlign: "right", width: 80, flexShrink: 0, paddingTop: 4 }}>
-              <div style={{ color: GOLD, fontSize: 13, fontFamily: "Georgia, serif", fontStyle: "italic" }}>{item.year}</div>
-            </div>
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 0 }}>
-              <div style={{
-                width: 36, height: 36, borderRadius: "50%",
-                background: `radial-gradient(circle, ${GOLD_DARK}40, transparent)`,
-                border: `1px solid ${GOLD}60`,
-                display: "flex", alignItems: "center", justifyContent: "center",
-                fontSize: 16, flexShrink: 0,
-              }}>{item.icon}</div>
-              <div style={{ width: 1, flex: 1, background: `linear-gradient(to bottom, ${GOLD}40, transparent)`, marginTop: 8 }} />
-            </div>
-            <div style={{ flex: 1, paddingBottom: 32 }}>
-              <h3 style={{
-                fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic",
-                color: INK, fontSize: 20, fontWeight: 400, margin: "0 0 8px",
-              }}>{item.title}</h3>
-              <p style={{ color: INK, opacity: 0.78, fontSize: 13, lineHeight: 1.8, margin: 0 }}>
-                {item.desc}
-              </p>
-            </div>
-          </div>
+        {JOURNEY_ITEMS.map((item, i) => (
+          <StoryItem key={`${item.year}-${i}`} item={item} />
         ))}
       </section>
 
@@ -1047,15 +1218,81 @@ export default function WeddingApp() {
           background: "rgba(255,247,240,0.6)", border: `1px solid ${GOLD_DARK}40`,
           borderRadius: 16, padding: 32, textAlign: "center",
         }}>
-          <div style={{ fontSize: 24, marginBottom: 16 }}>📍</div>
-          <h3 style={{
-            fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic",
-            color: INK, fontSize: 24, fontWeight: 300, margin: "0 0 8px",
-          }}>Balmoral Estate</h3>
-          <p style={{ color: INK, opacity: 0.75, fontSize: 13, margin: "0 0 16px", lineHeight: 1.6 }}>
-            42 Galle Face Terrace, Colombo 03, Sri Lanka
-          </p>
-          <div className="venue-stack" style={{ display: "flex", gap: 32, justifyContent: "center", flexWrap: "wrap" }}>
+          <a
+            href="https://maps.app.goo.gl/qHFX7MpsLS4LnKWz8"
+            target="_blank"
+            rel="noreferrer"
+            style={{ textDecoration: "none", color: "inherit" }}
+            aria-label="Open pinned location in Google Maps"
+            title="Open in Google Maps"
+          >
+            <div style={{
+              display: "inline-flex",
+              alignItems: "center",
+              justifyContent: "center",
+              width: 44,
+              height: 44,
+              borderRadius: "50%",
+              border: `1px solid ${GOLD_DARK}`,
+              color: GOLD,
+              marginBottom: 16,
+              background: "rgba(255,253,250,0.85)",
+            }}>
+              📍
+            </div>
+            <h3 style={{
+              fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic",
+              color: INK, fontSize: 24, fontWeight: 300, margin: "0 0 8px",
+            }}>Balmoral Ballroom, THE KINGSBURY HOTEL</h3>
+          </a>
+          <div style={{
+            width: "100%",
+            height: 260,
+            position: "relative",
+            borderRadius: 14,
+            overflow: "hidden",
+            border: `1px solid ${GOLD_DARK}40`,
+            marginBottom: 18,
+            background: "#fff",
+          }}>
+            <div style={{
+              position: "absolute",
+              top: 12,
+              left: 12,
+              zIndex: 2,
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 8,
+              padding: "8px 12px",
+              borderRadius: 999,
+              background: "rgba(255,253,250,0.92)",
+              border: `1px solid ${GOLD_DARK}`,
+              color: INK,
+              fontSize: 11,
+              letterSpacing: 1.5,
+              boxShadow: "0 8px 20px rgba(0,0,0,0.08)",
+              pointerEvents: "none",
+            }}>
+              <span style={{
+                width: 14,
+                height: 14,
+                borderRadius: "50%",
+                background: GOLD,
+                animation: "pulsePin 1.8s infinite",
+              }} />
+              Pinned location
+            </div>
+            <iframe
+              title="Balmoral Ballroom, THE KINGSBURY HOTEL Google Map"
+              src="https://www.google.com/maps?q=6.93302329927967,79.84191913867275&z=17&output=embed"
+              width="100%"
+              height="100%"
+              style={{ border: 0 }}
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            />
+          </div>
+          {/* <div className="venue-stack" style={{ display: "flex", gap: 32, justifyContent: "center", flexWrap: "wrap" }}>
             {[
               { label: "Dress Code", value: "Black Tie Optional" },
               { label: "Parking", value: "Complimentary Valet" },
@@ -1066,7 +1303,7 @@ export default function WeddingApp() {
                 <div style={{ color: INK, fontSize: 12, opacity: 0.8 }}>{value}</div>
               </div>
             ))}
-          </div>
+          </div> */}
         </div>
       </section>
 
