@@ -832,14 +832,14 @@ export default function WeddingApp() {
         </div>
 
         {/* Subtitle */}
-        <p style={{
+        {/* <p style={{
           color: INK, fontSize: 15, fontStyle: "italic", letterSpacing: 2,
           opacity: 0.75, marginBottom: 48, textAlign: "center",
           animation: "fadeUp 1s 1.3s both",
           fontFamily: "'Cormorant Garamond', serif",
         }}>
           "Two souls, one love, one forever"
-        </p>
+        </p> */}
 
         {/* CTA */}
         <button onClick={() => scrollTo("finder")} className="cta-btn" style={{
