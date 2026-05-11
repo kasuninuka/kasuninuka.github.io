@@ -44,15 +44,17 @@ const TABLES = [
   { id: "T11", x: 300, y: 500, label: "11" },
   { id: "T12", x: 380, y: 500, label: "12" },
 
-  { id: "T13", x: 140, y: 640, label: "13" },
-  { id: "T14", x: 220, y: 640, label: "14" },
-  { id: "T15", x: 300, y: 640, label: "15" },
-  { id: "T16", x: 380, y: 640, label: "16" },
+  { id: "T17", x: 180, y: 590, label: "17" },
+  { id: "T18", x: 340, y: 590, label: "18" },
+  { id: "T19", x: 490, y: 590, label: "19" },
+  { id: "T29", x: 650, y: 590, label: "29" },
 
-  { id: "T17", x: 140, y: 730, label: "17" },
-  { id: "T18", x: 220, y: 730, label: "18" },
-  { id: "T19", x: 300, y: 730, label: "19" },
-  { id: "T20", x: 380, y: 730, label: "20" },
+  { id: "T13", x: 140, y: 680, label: "13" },
+  { id: "T14", x: 220, y: 680, label: "14" },
+  { id: "T15", x: 300, y: 680, label: "15" },
+  { id: "T16", x: 380, y: 680, label: "16" },
+
+  { id: "T20", x: 380, y: 770, label: "20" },
 
   { id: "T21", x: 450, y: 410, label: "21" },
   { id: "T22", x: 530, y: 410, label: "22" },
@@ -64,20 +66,12 @@ const TABLES = [
   { id: "T27", x: 610, y: 500, label: "27" },
   { id: "T28", x: 690, y: 500, label: "28" },
 
-  { id: "T29", x: 450, y: 640, label: "29" },
-  { id: "T30", x: 530, y: 640, label: "30" },
-  { id: "T31", x: 610, y: 640, label: "31" },
-  { id: "T32", x: 690, y: 640, label: "32" },
+  { id: "T30", x: 450, y: 680, label: "30" },
+  { id: "T31", x: 570, y: 680, label: "31" },
+  { id: "T32", x: 690, y: 680, label: "32" },
 ];
 
-const PILLARS = [
-  { id: "P1", x: 120, y: 570 },
-  { id: "P2", x: 220, y: 570 },
-  { id: "P3", x: 320, y: 570 },
-  { id: "P4", x: 480, y: 570 },
-  { id: "P5", x: 580, y: 570 },
-  { id: "P6", x: 720, y: 570 },
-];
+const PILLARS = [];
 
 const GUESTS = [
   { id: 1, name: "Amelia Hartwell", table: "T01", seat: "S2", group: "Bride's Family", initials: "AH" },
