@@ -695,9 +695,10 @@ export default function WeddingApp() {
           .map-shell { height: 420px !important; }
         }
         @media (max-width: 720px) {
-          .nav-bar { flex-wrap: wrap; justify-content: center !important; }
+          .nav-bar { flex-wrap: wrap; justify-content: center !important; padding: 8px 12px !important; }
           .nav-brand { width: 100%; text-align: center; }
-          .nav-links { width: 100%; justify-content: center; }
+          .nav-links { width: 100%; justify-content: center; flex-wrap: wrap; overflow-x: visible !important; gap: 6px 10px !important; }
+          .nav-links button { font-size: 10px !important; letter-spacing: 1.2px !important; padding: 3px 4px !important; }
           .hero-section { padding: 90px 16px 72px !important; }
           .finder-section { padding: 72px 0 !important; }
           .timeline-grid { grid-template-columns: 1fr !important; }
