@@ -706,6 +706,7 @@ export default function WeddingApp() {
           .map-shell { height: 340px !important; }
           .guest-card-wrap { width: 100% !important; }
           .cta-btn { width: 100%; max-width: 280px; }
+          .hero-date { text-align: center; }
         }
       `}</style>
 
@@ -768,7 +769,7 @@ export default function WeddingApp() {
         }}>✦ ✦ ✦</div>
 
         {/* Date */}
-        <div style={{
+        <div className="hero-date" style={{
           fontSize: 11, letterSpacing: 6, color: INK, opacity: 0.75,
           fontFamily: "Georgia, serif",
           animation: "fadeUp 1s 0.3s both",
