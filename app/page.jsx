@@ -571,12 +571,6 @@ function Gallery({ items }) {
           <div className="gallery-frame">
             <img src={it.src} alt={it.caption || ""} loading="lazy" />
           </div>
-          {(it.year || it.caption) && (
-            <figcaption className="gallery-caption">
-              {it.year && <span className="gallery-year">{it.year}</span>}
-              {it.caption && <span className="gallery-title">{it.caption}</span>}
-            </figcaption>
-          )}
         </figure>
       ))}
     </div>
@@ -715,45 +709,9 @@ export default function WeddingApp() {
           will-change: transform;
         }
         .gallery-tile:hover img { transform: scale(1.06); }
-        .gallery-caption {
-          position: absolute;
-          left: 0; right: 0; bottom: 0;
-          padding: 56px 18px 16px;
-          background: linear-gradient(to top,
-            rgba(59,42,30,0.78) 0%,
-            rgba(59,42,30,0.55) 40%,
-            rgba(59,42,30,0) 100%);
-          color: #FFFBF7;
-          display: flex;
-          flex-direction: column;
-          gap: 4px;
-          opacity: 0;
-          transform: translateY(8px);
-          transition: opacity 0.45s ease, transform 0.45s ease;
-          pointer-events: none;
-        }
-        .gallery-tile:hover .gallery-caption,
-        .gallery-tile:focus-within .gallery-caption {
-          opacity: 1;
-          transform: translateY(0);
-        }
-        .gallery-year {
-          font-size: 10px;
-          letter-spacing: 4px;
-          font-family: Georgia, serif;
-          color: ${GOLD};
-          opacity: 0.95;
-        }
-        .gallery-title {
-          font-family: 'Cormorant Garamond', serif;
-          font-style: italic;
-          font-size: 18px;
-          letter-spacing: 0.5px;
-        }
         @media (max-width: 900px) {
           .gallery-mason { column-count: 2; column-gap: 14px; }
           .gallery-tile { margin-bottom: 14px; }
-          .gallery-caption { opacity: 1; transform: translateY(0); padding-top: 40px; }
         }
         @media (max-width: 520px) {
           .gallery-mason { column-count: 1; }
