@@ -636,6 +636,7 @@ export default function WeddingApp() {
         .nav-links { display: flex; gap: 20px; }
         .nav-links button { white-space: nowrap; }
         .finder-grid { display: grid; }
+        .hero-date { text-align: center; }
         .gallery-mason {
           column-count: 3;
           column-gap: 18px;
@@ -706,7 +707,6 @@ export default function WeddingApp() {
           .map-shell { height: 340px !important; }
           .guest-card-wrap { width: 100% !important; }
           .cta-btn { width: 100%; max-width: 280px; }
-          .hero-date { text-align: center; }
         }
       `}</style>
 
@@ -775,7 +775,11 @@ export default function WeddingApp() {
           animation: "fadeUp 1s 0.3s both",
           marginBottom: 20,
         }}>
-          13 MAY 2026 · At the Balmoral Ballroom, THE KINGSBURY HOTEL
+          13 MAY 2026
+          <br />
+          BALMORAL BALLROOM
+          <br />
+          THE KINGSBURY HOTEL
         </div>
 
         {/* Main heading */}
@@ -1246,9 +1250,9 @@ export default function WeddingApp() {
           <span style={{ color: GOLD, opacity: 0.7, fontSize: 12, letterSpacing: 4 }}>✦</span>
           <div style={{ width: 56, height: 1, background: `linear-gradient(to left, transparent, ${GOLD_DARK})`, opacity: 0.7 }} />
         </div>
-        <p style={{ color: INK, fontSize: 11, opacity: 0.6, margin: 0 }}>
+        {/* <p style={{ color: INK, fontSize: 11, opacity: 0.6, margin: 0 }}>
           Made with love by Kasuni & Inuka. Please join us in celebrating our special day!
-        </p>
+        </p> */}
       </footer>
     </div>
   );
