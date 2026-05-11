@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
+import GUESTS from "./guests.json";
 
 // ── Palette & fonts ────────────────────────────────────────────────
 const GOLD = "#B58A5A";
@@ -73,40 +74,6 @@ const TABLES = [
 
 const PILLARS = [];
 
-const GUESTS = [
-  { id: 1, name: "Amelia Hartwell", table: "T01", seat: "S2", group: "Bride's Family", initials: "AH" },
-  { id: 2, name: "Benjamin Ashford", table: "T01", seat: "S4", group: "Bride's Family", initials: "BA" },
-  { id: 3, name: "Charlotte Voss", table: "T02", seat: "S1", group: "Groom's Family", initials: "CV" },
-  { id: 4, name: "Dominic Laurent", table: "T02", seat: "S3", group: "Groom's Family", initials: "DL" },
-  { id: 5, name: "Eleanor Whitmore", table: "T03", seat: "S2", group: "College Friends", initials: "EW" },
-  { id: 6, name: "Felix Donovan", table: "T03", seat: "S5", group: "College Friends", initials: "FD" },
-  { id: 7, name: "Grace Sutherland", table: "T04", seat: "S1", group: "Work Colleagues", initials: "GS" },
-  { id: 8, name: "Henry Blackwood", table: "T04", seat: "S3", group: "Work Colleagues", initials: "HB" },
-  { id: 9, name: "Isabella Moreau", table: "T05", seat: "S2", group: "Childhood Friends", initials: "IM" },
-  { id: 10, name: "James Thornton", table: "T05", seat: "S4", group: "Childhood Friends", initials: "JT" },
-  { id: 11, name: "Katherine Lin", table: "T06", seat: "S1", group: "Bride's Family", initials: "KL" },
-  { id: 12, name: "Lucas Beaumont", table: "T06", seat: "S6", group: "Bride's Family", initials: "LB" },
-  { id: 13, name: "Margaret Holloway", table: "T07", seat: "S2", group: "Groom's Family", initials: "MH" },
-  { id: 14, name: "Nathan Prescott", table: "T07", seat: "S4", group: "Groom's Family", initials: "NP" },
-  { id: 15, name: "Olivia Sinclair", table: "T08", seat: "S1", group: "VIP Guests", initials: "OS" },
-  { id: 16, name: "Patrick Wren", table: "T08", seat: "S3", group: "VIP Guests", initials: "PW" },
-  { id: 17, name: "Quinn Aldridge", table: "T09", seat: "S2", group: "College Friends", initials: "QA" },
-  { id: 18, name: "Rosalind Foley", table: "T09", seat: "S5", group: "College Friends", initials: "RF" },
-  { id: 19, name: "Sebastian Crane", table: "T10", seat: "S1", group: "Work Colleagues", initials: "SC" },
-  { id: 20, name: "Theodora Nash", table: "T10", seat: "S3", group: "Work Colleagues", initials: "TN" },
-  { id: 21, name: "Ursula Fontaine", table: "T11", seat: "S2", group: "Childhood Friends", initials: "UF" },
-  { id: 22, name: "Victor Hale", table: "T11", seat: "S4", group: "Childhood Friends", initials: "VH" },
-  { id: 23, name: "Winifred Cross", table: "T12", seat: "S1", group: "Bride's Family", initials: "WC" },
-  { id: 24, name: "Xavier Drummond", table: "T12", seat: "S3", group: "Bride's Family", initials: "XD" },
-  { id: 25, name: "Yvette Marchetti", table: "T13", seat: "S2", group: "VIP Guests", initials: "YM" },
-  { id: 26, name: "Zachary Pemberton", table: "T13", seat: "S5", group: "VIP Guests", initials: "ZP" },
-  { id: 27, name: "Arabella Spencer", table: "T14", seat: "S1", group: "Groom's Family", initials: "AS" },
-  { id: 28, name: "Byron Kessler", table: "T14", seat: "S4", group: "Groom's Family", initials: "BK" },
-  { id: 29, name: "Celeste Navarro", table: "T15", seat: "S2", group: "College Friends", initials: "CN" },
-  { id: 30, name: "Desmond Fairfax", table: "T15", seat: "S3", group: "College Friends", initials: "DF" },
-];
-
-
 // ── Timeline data ──────────────────────────────────────────────────
 const TIMELINE = [
   { time: "8:30 AM", event: "Guest Arrival & Welcome", icon: "🥂" },
@@ -124,7 +91,7 @@ function fuzzySearch(query, items) {
   if (!query.trim()) return [];
   const q = query.toLowerCase();
   return items
-    .filter(g => g.name.toLowerCase().includes(q) || g.group.toLowerCase().includes(q))
+    .filter(g => g.name.toLowerCase().includes(q) || (g.surname || "").toLowerCase().includes(q))
     .sort((a, b) => {
       const aStart = a.name.toLowerCase().startsWith(q) ? 0 : 1;
       const bStart = b.name.toLowerCase().startsWith(q) ? 0 : 1;
@@ -441,9 +408,9 @@ function HallMap({ selectedTable, onTableClick, highlightGuests }) {
 function GuestCard({ guest, onClose }) {
   if (!guest) return null;
   const messages = [
-    `Welcome to our celebration, ${guest.name.split(" ")[0]}! Your presence makes this day even more special.`,
-    `So glad you could join us, ${guest.name.split(" ")[0]}! Here's to an unforgettable evening together.`,
-    `${guest.name.split(" ")[0]}, thank you for being part of our love story. We're so happy you're here!`,
+    `Welcome to our celebration, ${guest.name}! Your presence makes this day even more special.`,
+    `So glad you could join us, ${guest.name}! Here's to an unforgettable evening together.`,
+    `${guest.name}, thank you for being part of our love story. We're so happy you're here!`,
   ];
   const message = messages[guest.id % 3];
 
